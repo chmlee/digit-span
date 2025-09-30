@@ -29,17 +29,17 @@ const Random = () => {
   const Question = () => {
     //return <a href="https://chmlee.github.io/digit-span/question/{id()}">https://chmlee.github.io/digit-span/question/{id()}</a>
     const link = () => `/question/${id()}`
-    return <A href={link()}>https://chmlee.github.io/digit-span/question/{id()}</A>
+    return <A href={link()}>https://chmlee.github.io/question/{id()}</A>
   }
 
   const First = () => {
     const link = () => `/memory/${id()}/1`
-    return <a href={link()}>https://chmlee.github.io/digit-span/memory/{id()}/1</a>
+    return <a href={link()}>https://chmlee.github.io/memory/{id()}/1</a>
   }
 
   const Second = () => {
     const link = () => `/memory/${id()}/2`
-    return <a href={link()}>https://chmlee.github.io/digit-span/memory/{id()}/2</a>
+    return <a href={link()}>https://chmlee.github.io/memory/{id()}/2</a>
   }
 
   
