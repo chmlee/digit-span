@@ -1,4 +1,5 @@
 import { createContext, createSignal, createEffect, useContext, onMount, onCleanup } from 'solid-js'
+import { useParams } from "@solidjs/router";
 import QRCode from 'qrcode'
 
 const TestContext = createContext();
@@ -64,6 +65,7 @@ const Digit = (props) => {
 
 const Interactive = (props) => {
   const { roundIndex, setRoundIndex, setDigits, digits, status, setStatus, setDigitsIndex, result, setResult } = useContext(TestContext)
+  const params = useParams()
 
   const [ inputAllowed, setInputAllowed ] = createSignal(false)
   const [ buttonAllowed, setButtonAllowed ] = createSignal(true)
@@ -92,7 +94,7 @@ const Interactive = (props) => {
       setResult(newResult)
       
       answer.value = ""
-      if (roundIndex() < 10) {
+      if (roundIndex() < 10) { // update this
         setMessage('Your response has been recorded. Please continue.')
         setButtonText('Next Round')
         setStatus('ready')
@@ -106,7 +108,12 @@ const Interactive = (props) => {
     }
     if (status() === 'done') {
       //generate result
-      const data = JSON.stringify(result())
+      const finalResult = {
+        id: params.id,
+	trial: params.trial,
+	result: result(),
+      }
+      const data = JSON.stringify(finalResult)
       const canvas = document.getElementById('qr')
       QRCode.toCanvas(canvas, data, (error) => {
         if (error) console.log(error)
@@ -134,7 +141,7 @@ const Interactive = (props) => {
       setInputAllowed(false)
       setButtonAllowed(true)
       setButtonText('Submit')
-      setMessage('Thank you for participating in the experiment. Please submit the results.')
+      setMessage('You have completed the test. Please save the following QR code and submit it to the test moderator.')
     }
   })
 
@@ -178,9 +185,11 @@ const Interactive = (props) => {
 
 const Header = () => {
   const { roundIndex } = useContext(TestContext)
+  const params = useParams()
 
   return <div>
     <h1>Digit Span Memory Test</h1>
+    <h2>ID: {params.id}; Trial: {params.trial}</h2>
     <p>Round {roundIndex}/10</p>
   </div>
 }
@@ -195,7 +204,7 @@ const generateRandomDigits = n => {
   return digits
 }
 
-function App() {
+function Memory() {
   return (
     <>
       <TestProvider>
@@ -209,4 +218,4 @@ function App() {
 }
 
 
-export default App
+export default Memory
