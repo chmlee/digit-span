@@ -7,11 +7,14 @@ import Question from './Question.jsx'
 
 const app = document.getElementById('app')
 
+const Test = () => <h1>Test page</h1>
+
 render(() => (
-  <Router>
+  <>
+  <Router base="/digit-span">
     <Route path="/random" component={Random} />
     <Route path="/memory/:id/:trial" component={Memory} />
     <Route path="/question/:id" component={Question} />
-    <Route path="/" component={<h1>test</h1>} />
-  </Router>
+    <Route path="/" component={Test} />
+  </Router></>
 ), app)
